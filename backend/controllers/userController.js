@@ -17,8 +17,14 @@ const userRegister = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const isAdmin = false;
+
+    // Check if form is incomplete
     if (!fname || !lname || !email || !password) {
         next(APIError.badRequest('User data incomplete'));
+
+    // Check if user with email Id already exists
+    } else if (await User.findOne({ email })) {
+        next(APIError.conflict('User with email already exists'));
     } else {
         // Hash password
         const salt = await bcrypt.genSalt(10);

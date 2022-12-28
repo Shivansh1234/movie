@@ -1,9 +1,9 @@
 class APIResponse {
-    constructor(success, code, message, response) {
+    constructor(success, code, message, data) {
         this.success = success;
         this.code = code;
         this.message = message;
-        this.response = response;
+        this.data = data;
     }
 
     static fetched(msg, data) {
