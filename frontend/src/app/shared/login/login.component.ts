@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) { }
+  constructor(private authService: AuthService, private sharedService: SharedService, private fb: FormBuilder, private router: Router) { }
 
   loginForm = this.fb.group({
     email: ['', Validators.required],
@@ -21,9 +22,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.authService.userLogin(this.loginForm.value).subscribe((data: any) => {
+    this.sharedService.userLogin(this.loginForm.value).subscribe((data: any) => {
       if (data.response.token) {
-        localStorage.setItem('token', data.response.token);
+        this.authService.storeUserToken(data.response.token);
         this.router.navigate(['common/profile']);
       } else {
         console.log('no heyt')

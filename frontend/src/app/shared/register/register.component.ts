@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-register',
@@ -8,7 +9,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private sharedService: SharedService) { }
 
   registerForm = this.fb.group({
     fname: ['', Validators.required],
@@ -17,11 +18,12 @@ export class RegisterComponent implements OnInit {
     password: ['', Validators.required]
   });
 
+  onSubmit(): void {
+    this.sharedService.userRegister(this.registerForm.value).subscribe(data => {
+      console.log(data);
+    });
+  }
+
   ngOnInit(): void {
   }
-
-  onSubmit(): void {
-    console.log(this.registerForm.value);
-  }
-
 }
