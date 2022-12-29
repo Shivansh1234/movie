@@ -1,5 +1,6 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
@@ -11,7 +12,7 @@ import { SharedService } from '../../services/shared.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService, private sharedService: SharedService, private fb: UntypedFormBuilder, private router: Router) { }
+  constructor(private authService: AuthService, private sharedService: SharedService, private fb: NonNullableFormBuilder, private router: Router) { }
 
   loginForm = this.fb.group({
     email: ['', Validators.required],
@@ -22,13 +23,17 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.sharedService.userLogin(this.loginForm.value).subscribe((loginData: any) => {
-      if (loginData.data.token) {
-        this.authService.setUserToken(loginData.data.token);
-        this.router.navigate(['common/profile']);
-      } else {
-      }
-    })
-  }
+    this.sharedService.userLogin(this.loginForm.value).subscribe({
+      next: (loginData) => {
+        if (loginData.data.token) {
+          this.authService.setUserToken(loginData.data.token);
+          this.router.navigate(['common/profile']);
+        } else {
+        }
+      },
+      error: (err: HttpErrorResponse) => {
 
+      }
+    });
+  }
 }

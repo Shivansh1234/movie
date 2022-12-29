@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ApiResponse } from '../models/api-response';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -31,9 +33,9 @@ export class AuthService {
     return localStorage.getItem('token') as string;
   }
 
-  getLoggedInUserInfo() {
+  getLoggedInUserInfo(): Observable<ApiResponse<User>> {
     const token = `Bearer ${this.getUserToken()}`;
     const headers = new HttpHeaders().set('Authorization', token);
-    return this.http.get('http://localhost:5000/api/user/info', { headers });
+    return this.http.get<ApiResponse<User>>('http://localhost:5000/api/user/info', { headers });
   }
 }

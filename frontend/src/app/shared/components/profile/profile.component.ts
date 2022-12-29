@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
@@ -13,8 +14,13 @@ export class ProfileComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   getUserData(): void {
-    this.authService.getLoggedInUserInfo().subscribe(data => {
-      console.log(data);
+    this.authService.getLoggedInUserInfo().subscribe({
+      next: (userData) => {
+        console.log(userData);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err);
+      }
     });
   }
 

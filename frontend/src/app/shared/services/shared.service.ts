@@ -11,8 +11,8 @@ export class SharedService {
 
   constructor(private http: HttpClient) { }
 
-  userLogin(loginData: User) {
-    return this.http.post(`http://localhost:5000/api/user/login`, loginData);
+  userLogin(loginData: Partial<{ email: string; password: string; }>): Observable<any> {
+    return this.http.post<any>(`http://localhost:5000/api/user/login`, loginData);
   }
 
   userRegister(userData: User): Observable<ApiResponse<User>> {

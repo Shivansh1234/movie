@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { SharedService } from '../../services/shared.service';
@@ -19,8 +20,13 @@ export class RegisterComponent implements OnInit {
   });
 
   onSubmit(): void {
-    this.sharedService.userRegister(this.registerForm.value).subscribe(data => {
-      console.log(data);
+    this.sharedService.userRegister(this.registerForm.value).subscribe({
+      next: (registerData) => {
+        console.log(registerData);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err);
+      }
     });
   }
 
