@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SharedService } from '../../services/shared.service';
@@ -11,7 +11,7 @@ import { SharedService } from '../../services/shared.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService, private sharedService: SharedService, private fb: FormBuilder, private router: Router) { }
+  constructor(private authService: AuthService, private sharedService: SharedService, private fb: UntypedFormBuilder, private router: Router) { }
 
   loginForm = this.fb.group({
     email: ['', Validators.required],
