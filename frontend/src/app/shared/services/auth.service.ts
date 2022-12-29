@@ -34,8 +34,6 @@ export class AuthService {
   }
 
   getLoggedInUserInfo(): Observable<ApiResponse<User>> {
-    const token = `Bearer ${this.getUserToken()}`;
-    const headers = new HttpHeaders().set('Authorization', token);
-    return this.http.get<ApiResponse<User>>('http://localhost:5000/api/user/info', { headers });
+    return this.http.get<ApiResponse<User>>('http://localhost:5000/api/user/info');
   }
 }
