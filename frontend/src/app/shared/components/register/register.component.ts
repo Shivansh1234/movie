@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { SharedService } from '../shared.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-register',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { SharedService } from '../shared.service';
+import { AuthService } from '../../services/auth.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -23,12 +23,10 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.sharedService.userLogin(this.loginForm.value).subscribe((loginData: any) => {
-      console.log(loginData.data.token);
       if (loginData.data.token) {
         this.authService.setUserToken(loginData.data.token);
         this.router.navigate(['common/profile']);
       } else {
-        console.log('no heyt')
       }
     })
   }
