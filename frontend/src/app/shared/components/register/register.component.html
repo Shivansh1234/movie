@@ -1,19 +1,31 @@
 <p>register works!</p>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-    <label for="fname">First Name: </label>
-    <input id="fname" type="text" formControlName="fname">
+    <p>
+        <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="fname">
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="lname">
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="email">
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="password">
+        </mat-form-field>
+    </p>
 
-    <label for="lname">Last Name: </label>
-    <input id="lname" type="text" formControlName="lname">
-
-    <label for="email">Eamil: </label>
-    <input id="email" type="text" formControlName="email">
-
-    <label for="password">Password: </label>
-    <input id="password" type="text" formControlName="password">
-
-    <p>Complete the form to enable button.</p>
-    <button type="submit" [disabled]="!registerForm.valid">Submit</button>
+    <button mat-button type="submit" [disabled]="!registerForm.valid">Submit</button>
 
 </form>

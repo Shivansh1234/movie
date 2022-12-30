@@ -1,7 +1,10 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ApiError } from '../../models/api-error';
+import { ApiResponse } from '../../models/api-response';
+import { User } from '../../models/user';
 import { SharedService } from '../../services/shared.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +13,11 @@ import { SharedService } from '../../services/shared.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private fb: UntypedFormBuilder, private sharedService: SharedService) { }
+  constructor(
+    private fb: FormBuilder,
+    private sharedService: SharedService,
+    private snackbarService: SnackbarService
+  ) { }
 
   registerForm = this.fb.group({
     fname: ['', Validators.required],
@@ -21,11 +28,11 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     this.sharedService.userRegister(this.registerForm.value).subscribe({
-      next: (registerData) => {
-        console.log(registerData);
+      next: (registerData: ApiResponse<User>) => {
+        this.snackbarService.successSnackbar(registerData.message);
       },
-      error: (err: HttpErrorResponse) => {
-        console.log(err);
+      error: (err: ApiError) => {
+        this.snackbarService.errorSnackbar(err.message);
       }
     });
   }
