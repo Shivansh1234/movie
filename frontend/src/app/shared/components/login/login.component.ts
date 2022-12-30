@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (err: HttpErrorResponse) => {
-
+        console.error(err);
       }
     });
   }

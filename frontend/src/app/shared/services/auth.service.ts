@@ -10,22 +10,22 @@ import { User } from '../models/user';
 })
 export class AuthService {
 
-  private loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getUserToken());
+  private loggedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getUserToken());
 
   constructor(private router: Router, private http: HttpClient) { }
 
   get isLoggedIn(): Observable<boolean> {
-    return this.loggedIn.asObservable();
+    return this.loggedIn$.asObservable();
   }
 
   setUserToken(token: string): void {
     localStorage.setItem('token', token);
-    this.loggedIn.next(true);
+    this.loggedIn$.next(true);
   }
 
   removeUserToken(): void {
     localStorage.removeItem('token');
-    this.loggedIn.next(false);
+    this.loggedIn$.next(false);
     this.router.navigate(['common', 'login']);
   }
 
