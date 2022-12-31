@@ -1,13 +1,13 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { User } from '../models/user';
 import { catchError, Observable, throwError } from 'rxjs';
-import { ApiResponse } from '../models/api-response';
+import { ApiResponse } from 'src/app/core/models/api-response';
+import { User } from 'src/app/core/models/user';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SharedService {
+export class CoreService {
 
   constructor(private http: HttpClient) { }
 

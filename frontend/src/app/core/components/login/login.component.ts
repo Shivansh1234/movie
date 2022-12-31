@@ -1,10 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiError } from '../../models/api-error';
+import { ApiError } from 'src/app/core/models/api-error';
 import { AuthService } from '../../services/auth.service';
-import { SharedService } from '../../services/shared.service';
+import { CoreService } from '../../services/core.service';
 import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
@@ -16,7 +15,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private sharedService: SharedService,
+    private coreService: CoreService,
     private snackbarService: SnackbarService,
     private fb: NonNullableFormBuilder,
     private router: Router
@@ -31,7 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.sharedService.userLogin(this.loginForm.value).subscribe({
+    this.coreService.userLogin(this.loginForm.value).subscribe({
       next: (loginData) => {
         if (loginData.data.token) {
           this.authService.setUserToken(loginData.data.token);

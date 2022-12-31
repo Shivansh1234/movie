@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { SnackbarService } from '../../services/snackbar.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-profile',

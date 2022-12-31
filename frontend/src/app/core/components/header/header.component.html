@@ -1,0 +1,9 @@
+<p>
+    <mat-toolbar>
+        <span [routerLink]="['home']">My App</span>
+        <span class="example-spacer"></span>
+        <button mat-button [routerLink]="['register']" *ngIf="!(isLoggedIn$ | async)">register</button>
+        <button mat-button [routerLink]="['login']" *ngIf="!(isLoggedIn$ | async)">login</button>
+        <button mat-button (click)="onLogout()" *ngIf="isLoggedIn$ | async">logout</button>
+    </mat-toolbar>
+</p>

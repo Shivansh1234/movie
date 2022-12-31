@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
@@ -26,7 +26,7 @@ export class AuthService {
   removeUserToken(): void {
     localStorage.removeItem('token');
     this.loggedIn$.next(false);
-    this.router.navigate(['common', 'login']);
+    this.router.navigate(['login']);
   }
 
   getUserToken(): string {
