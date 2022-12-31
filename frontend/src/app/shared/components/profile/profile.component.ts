@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +12,10 @@ export class ProfileComponent implements OnInit {
 
   userInfo: any = {};
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private snackbarService: SnackbarService
+  ) { }
 
   getUserData(): void {
     this.authService.getLoggedInUserInfo().subscribe({
@@ -19,7 +23,7 @@ export class ProfileComponent implements OnInit {
         console.log(userData);
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err);
+        this.snackbarService.errorSnackbar(err.message);
       }
     });
   }
