@@ -36,11 +36,7 @@ export class LoginComponent implements OnInit {
         if (loginData.data.token) {
           this.authService.setLocalStorage(loginData.data.token, loginData.data.role);
           this.router.navigate(['home']);
-        } else {
         }
-      },
-      error: (err: ApiError) => {
-        this.snackbarService.errorSnackbar(err.message);
       }
     });
   }
