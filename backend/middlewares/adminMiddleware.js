@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const APIError = require('../config/APIError');
 const User = require('../models/userModel');
 
-const authProtect = async (req, res, next) => {
+const adminProtect = async (req, res, next) => {
     let token = '';
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         // Get token from Header
@@ -13,7 +13,11 @@ const authProtect = async (req, res, next) => {
             // Get user from token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user = await User.findById(decoded.id).select('-password');
-            next();
+            if (req.user.isAdmin) {
+                next();
+            } else {
+                next(APIError.unauthorized('Unauthorized Admin access'));
+            }
         } catch (e) {
             next(APIError.unauthorized('Token unformatted'));
             return;
@@ -27,4 +31,4 @@ const authProtect = async (req, res, next) => {
     }
 };
 
-module.exports = { authProtect };
+module.exports = { adminProtect };

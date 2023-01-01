@@ -1,7 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { map, Observable } from 'rxjs';
+import { User } from '../../../core/models/user';
 import { AuthService } from '../../../core/services/auth.service';
-import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,22 +10,16 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
 })
 export class ProfileComponent implements OnInit {
 
-  userInfo: any = {};
+  user$: Observable<User> = new Observable<User>();
 
   constructor(
     private authService: AuthService,
-    private snackbarService: SnackbarService
   ) { }
 
   getUserData(): void {
-    this.authService.getLoggedInUserInfo().subscribe({
-      next: (userData) => {
-        console.log(userData);
-      },
-      error: (err: HttpErrorResponse) => {
-        this.snackbarService.errorSnackbar(err.message);
-      }
-    });
+    this.user$ = this.authService.getLoggedInUserInfo().pipe(
+      map(user => user.data)
+    );
   }
 
   ngOnInit(): void {

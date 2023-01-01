@@ -62,7 +62,7 @@ const userLogin = async (req, res, next) => {
 // @route POST /api/users/info
 // @access private
 const userInfo = async (req, res, next) => {
-    res.send(req.user);
+    res.status(200).send(APIResponse.fetched('User fetched successfully', req.user));
     next();
 };
 
