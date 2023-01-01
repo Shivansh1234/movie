@@ -10,32 +10,37 @@ import { User } from '../models/user';
 })
 export class AuthService {
 
-  private loggedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getUserToken());
-  private isAdmin$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getUserToken());
+  private loggedInBS$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getUserToken());
+  private adminBS$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getUserRole());
 
   constructor(private router: Router, private http: HttpClient) { }
 
   get isLoggedIn(): Observable<boolean> {
-    return this.loggedIn$.asObservable();
+    return this.loggedInBS$.asObservable();
   }
 
   get isAdmin(): Observable<boolean> {
-    return this.isAdmin$.asObservable();
+    return this.adminBS$.asObservable();
   }
 
-  setUserToken(token: string): void {
+  setLocalStorage(token: string, role: boolean): void {
     localStorage.setItem('token', token);
-    this.loggedIn$.next(true);
+    localStorage.setItem('role', JSON.stringify(role));
+    this.loggedInBS$.next(true);
+    this.adminBS$.next(this.getUserRole());
   }
 
-  setUserRole(role: boolean): void {
-    localStorage.setItem('role', JSON.stringify(role));
-    this.loggedIn$.next(true);
+  clearLocalStorage(): void {
+    localStorage.clear();
+    this.loggedInBS$.next(false);
+    this.adminBS$.next(false);
+    this.router.navigate(['login']);
   }
 
   removeUserToken(): void {
-    localStorage.removeItem('token');
-    this.loggedIn$.next(false);
+    localStorage.clear();
+    this.loggedInBS$.next(false);
+    this.loggedInBS$.next(false);
     this.router.navigate(['login']);
   }
 
@@ -44,7 +49,12 @@ export class AuthService {
   }
 
   getUserRole(): boolean {
-    return JSON.parse(localStorage.getItem('role') as string);
+    console.log(localStorage.getItem('role'))
+    if (localStorage.getItem('role') === 'true') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getLoggedInUserInfo(): Observable<ApiResponse<User>> {

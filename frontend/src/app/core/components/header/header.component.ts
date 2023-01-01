@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   onLogout(): void {
-    this.authService.removeUserToken();
+    this.authService.clearLocalStorage();
   }
 
   ngOnInit(): void {

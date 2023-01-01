@@ -34,8 +34,7 @@ export class LoginComponent implements OnInit {
       next: (loginData) => {
         console.log(loginData);
         if (loginData.data.token) {
-          this.authService.setUserToken(loginData.data.token);
-          this.authService.setUserRole(loginData.data.isAdmin);
+          this.authService.setLocalStorage(loginData.data.token, loginData.data.role);
           this.router.navigate(['home']);
         } else {
         }

@@ -11,10 +11,10 @@ export class AdminGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!!localStorage.getItem('token')) {
+    if (localStorage.getItem('role') === 'true') {
       return true;
     } else {
-      this.router.navigate(['login']);
+      this.router.navigate(['common', 'profile']);
       return false;
     }
   }
