@@ -50,7 +50,8 @@ const userLogin = async (req, res, next) => {
     const user = await User.findOne(filter);
     if (user && (await (bcrypt.compare(password, user.password)))) {
         const token = generateToken(user._id);
-        const response = { token };
+        const role = user.isAdmin;
+        const response = { token, role };
         res.status(200).send(APIResponse.fetched('Login successfully', response));
     } else {
         next(APIError.unauthorized('Invalid credentials'));

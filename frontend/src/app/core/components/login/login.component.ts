@@ -32,9 +32,11 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.coreService.userLogin(this.loginForm.value).subscribe({
       next: (loginData) => {
+        console.log(loginData);
         if (loginData.data.token) {
           this.authService.setUserToken(loginData.data.token);
-          this.router.navigate(['common/profile']);
+          this.authService.setUserRole(loginData.data.isAdmin);
+          this.router.navigate(['home']);
         } else {
         }
       },

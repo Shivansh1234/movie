@@ -11,6 +11,7 @@ import { User } from '../models/user';
 export class AuthService {
 
   private loggedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getUserToken());
+  private isAdmin$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getUserToken());
 
   constructor(private router: Router, private http: HttpClient) { }
 
@@ -18,8 +19,17 @@ export class AuthService {
     return this.loggedIn$.asObservable();
   }
 
+  get isAdmin(): Observable<boolean> {
+    return this.isAdmin$.asObservable();
+  }
+
   setUserToken(token: string): void {
     localStorage.setItem('token', token);
+    this.loggedIn$.next(true);
+  }
+
+  setUserRole(role: boolean): void {
+    localStorage.setItem('role', JSON.stringify(role));
     this.loggedIn$.next(true);
   }
 
@@ -31,6 +41,10 @@ export class AuthService {
 
   getUserToken(): string {
     return localStorage.getItem('token') as string;
+  }
+
+  getUserRole(): boolean {
+    return JSON.parse(localStorage.getItem('role') as string);
   }
 
   getLoggedInUserInfo(): Observable<ApiResponse<User>> {
