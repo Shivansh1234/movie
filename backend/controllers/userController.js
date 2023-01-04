@@ -22,7 +22,7 @@ const userRegister = async (req, res, next) => {
     if (!fname || !lname || !email || !password) {
         next(APIError.badRequest('User data incomplete'));
 
-    // Check if user with email Id already exists
+        // Check if user with email Id already exists
     } else if (await User.findOne({ email })) {
         next(APIError.conflict('User with email already exists'));
     } else {
@@ -47,7 +47,7 @@ const userLogin = async (req, res, next) => {
 
     // Check for user email
     const filter = { email };
-    const user = await User.findOne(filter);
+    const user = await User.findOne(filter).select('+password');
     if (user && (await (bcrypt.compare(password, user.password)))) {
         const token = generateToken(user._id);
         const role = user.isAdmin;
@@ -66,4 +66,24 @@ const userInfo = async (req, res, next) => {
     next();
 };
 
-module.exports = { userRegister, userLogin, userInfo };
+const sampleDataInsert = async (req, res) => {
+    for (let k = 1; k < 5; k++) {
+        const fname = 'shivansh';
+        const lname = fname;
+        const email = fname + k;
+        const password = fname;
+        const isAdmin = true;
+
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Create user
+        await User.create({
+            fname, lname, email, password: hashedPassword, isAdmin
+        });
+    }
+    res.send('ok');
+};
+
+module.exports = { userRegister, userLogin, userInfo, sampleDataInsert };

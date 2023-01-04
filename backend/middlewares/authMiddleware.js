@@ -12,7 +12,7 @@ const authProtect = async (req, res, next) => {
         try {
             // Get user from token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = await User.findById(decoded.id).select('-password');
+            req.user = await User.findById(decoded.id);
             next();
         } catch (e) {
             next(APIError.unauthorized('Token unformatted'));

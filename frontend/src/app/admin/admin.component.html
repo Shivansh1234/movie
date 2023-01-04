@@ -1,3 +1,11 @@
-<ng-container *ngIf="tests | async as testsg">
-    {{ testsg | json }}
+<ng-container *ngIf="userList | async as users">
+    <ol>
+        <li *ngFor="let x of users.users">
+            {{ x.email }} &nbsp; &nbsp; &nbsp; {{ x._id }}
+        </li>
+    </ol>
+    {{ users.prevPage }} {{ users.nextPage }}
+    <mat-paginator #paginator [length]="users.totalCount" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
+        [pageIndex]="pageIndex" aria-label="Select page" (page)="onPageChange($event, users.nextPage, users.prevPage)">
+    </mat-paginator>
 </ng-container>

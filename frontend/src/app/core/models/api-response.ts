@@ -3,4 +3,11 @@ export interface ApiResponse<T> {
     status: number;
     message: string;
     data: T;
+    page: Page;
+}
+
+export interface Page {
+    nextPage: string;
+    prevPage: string;
+    totalCount: string;
 }
