@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { take } from 'rxjs';
+import { ApiError } from 'src/app/core/models/api-error';
+import { ApiResponse } from 'src/app/core/models/api-response';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { User } from '../../../core/models/user';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -10,16 +13,26 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class ProfileComponent implements OnInit {
 
-  user$: Observable<User> = new Observable<User>();
+  user: User = {} as User;
 
   constructor(
     private authService: AuthService,
+    private snackbarService: SnackbarService
   ) { }
 
   getUserData(): void {
-    this.user$ = this.authService.getLoggedInUserInfo().pipe(
-      map(user => user.data)
-    );
+    this.authService.getLoggedInUserInfo()
+    .pipe(
+      take(1)
+    )
+    .subscribe({
+      next: (profileData: ApiResponse<User>) => {
+        this.user = profileData.data;
+      },
+      error: (err: ApiError) => {
+        this.snackbarService.errorSnackbar(err.message);
+      }
+    })
   }
 
   ngOnInit(): void {

@@ -6,6 +6,8 @@ import { AdminComponent } from './admin.component';
 
 // Material Imports
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AdminRoutingModule,
 
     // MaterialImports
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class AdminModule { }

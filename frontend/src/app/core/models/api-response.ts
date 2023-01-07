@@ -3,11 +3,21 @@ export interface ApiResponse<T> {
     status: number;
     message: string;
     data: T;
-    page: Page;
+    metaData: MetaData;
+}
+
+export interface MetaData {
+    links: Link[];
+    page: Page
 }
 
 export interface Page {
     nextPage: string;
     prevPage: string;
-    totalCount: string;
+    totalCount: number;
+}
+
+export interface Link {
+    first: string;
+    last: string;
 }

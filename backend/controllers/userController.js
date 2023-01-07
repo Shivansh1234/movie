@@ -67,8 +67,8 @@ const userInfo = async (req, res, next) => {
 };
 
 const sampleDataInsert = async (req, res) => {
-    for (let k = 1; k < 5; k++) {
-        const fname = 'shivansh';
+    for (let k = 1; k < 6; k++) {
+        const fname = 'seth';
         const lname = fname;
         const email = fname + k;
         const password = fname;

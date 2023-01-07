@@ -57,6 +57,13 @@ export class AuthService {
   }
 
   getLoggedInUserInfo(): Observable<ApiResponse<User>> {
-    return this.http.get<ApiResponse<User>>('http://localhost:5000/api/user/info');
+    return this.http.get<ApiResponse<User>>('http://localhost:5000/api/user/info').pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    // Return an observable with a user-facing error message.
+    return throwError(() => error.error);
   }
 }

@@ -1,9 +1,9 @@
 const express = require('express');
-const { sampleAdminRequest } = require('../controllers/adminController');
+const { getUserListRequest } = require('../controllers/adminController');
 const { adminProtect } = require('../middlewares/adminMiddleware');
 
 const router = express.Router();
 
-router.get('/info', adminProtect, sampleAdminRequest);
+router.get('/info', adminProtect, getUserListRequest);
 
 module.exports = router;

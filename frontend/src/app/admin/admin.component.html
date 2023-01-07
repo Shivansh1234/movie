@@ -1,11 +1,14 @@
-<ng-container *ngIf="userList | async as users">
+<mat-form-field>
+    <mat-label>Search</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
+<ng-container *ngIf="userList?.length">
     <ol>
-        <li *ngFor="let x of users.users">
+        <li *ngFor="let x of userList">
             {{ x.email }} &nbsp; &nbsp; &nbsp; {{ x._id }}
         </li>
     </ol>
-    {{ users.prevPage }} {{ users.nextPage }}
-    <mat-paginator #paginator [length]="users.totalCount" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
-        [pageIndex]="pageIndex" aria-label="Select page" (page)="onPageChange($event, users.nextPage, users.prevPage)">
+    <mat-paginator #paginator [length]="totalCount" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
+        [pageIndex]="pageIndex" aria-label="Select page" (page)="onPageChange($event)">
     </mat-paginator>
 </ng-container>
