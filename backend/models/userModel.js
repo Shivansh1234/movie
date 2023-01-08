@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const postSchema = require('./postModel');
 
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
@@ -26,7 +25,7 @@ const userSchema = new Schema({
         enum: ['USER', 'AUTHOR', 'ADMIN'],
         default: 'USER'
     },
-    posts: [postSchema]
+    posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
 }, {
     timestamps: true
 });

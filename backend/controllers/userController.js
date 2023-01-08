@@ -67,11 +67,11 @@ const userInfo = async (req, res, next) => {
 
 const sampleDataInsert = async (req, res) => {
     for (let k = 1; k < 2; k++) {
-        const fname = 'shivansh';
+        const fname = 'seth';
         const lname = fname;
         const email = fname;
         const password = fname;
-        const role = ['USER', 'AUTHOR', 'ADMIN'];
+        const role = ['USER', 'AUTHOR'];
 
         // Hash password
         const salt = await bcrypt.genSalt(10);

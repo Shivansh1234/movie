@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
     .subscribe({
       next: (profileData: ApiResponse<User>) => {
         this.user = profileData.data;
+        console.log(this.user);
       },
       error: (err: ApiError) => {
         this.snackbarService.errorSnackbar(err.message);

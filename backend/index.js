@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const { connectDB } = require('./config/db');
 const userRoute = require('./routes/userRoute');
 const adminRoute = require('./routes/adminRoute');
+const authorRoute = require('./routes/authorRoute');
 const errorHandler = require('./middlewares/errorMiddleware');
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 // nested routes
 app.use('/api/user', userRoute);
 app.use('/api/admin', adminRoute);
+app.use('/api/author', authorRoute);
 
 // custom middleware
 app.use(errorHandler);
