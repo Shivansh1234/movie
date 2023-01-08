@@ -13,7 +13,7 @@ const adminProtect = async (req, res, next) => {
             // Get user from token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user = await User.findById(decoded.id);
-            if (req.user.isAdmin) {
+            if (req.user.role.includes('ADMIN')) {
                 next();
             } else {
                 next(APIError.unauthorized('Unauthorized Admin access'));

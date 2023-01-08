@@ -11,7 +11,7 @@ import { User } from '../models/user';
 export class AuthService {
 
   private loggedInBS$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getUserToken());
-  private adminBS$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(!!this.getUserRole());
+  private rolesBS$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(this.getUserRoles());
 
   constructor(private router: Router, private http: HttpClient) { }
 
@@ -19,41 +19,32 @@ export class AuthService {
     return this.loggedInBS$.asObservable();
   }
 
-  get isAdmin(): Observable<boolean> {
-    return this.adminBS$.asObservable();
+  get getLoggedInRoles(): Observable<string[]> {
+    return this.rolesBS$.asObservable();
   }
 
-  setLocalStorage(token: string, role: boolean): void {
+  setLocalStorage(token: string, role: string[]): void {
     localStorage.setItem('token', token);
     localStorage.setItem('role', JSON.stringify(role));
     this.loggedInBS$.next(true);
-    this.adminBS$.next(this.getUserRole());
+    this.rolesBS$.next(this.getUserRoles());
   }
 
   clearLocalStorage(): void {
     localStorage.clear();
     this.loggedInBS$.next(false);
-    this.adminBS$.next(false);
+    this.rolesBS$.next([]);
     this.router.navigate(['login']);
   }
 
-  removeUserToken(): void {
-    localStorage.clear();
-    this.loggedInBS$.next(false);
-    this.loggedInBS$.next(false);
-    this.router.navigate(['login']);
-  }
-
+  // To be called by Behaviour Subject to get initial values
   getUserToken(): string {
     return localStorage.getItem('token') as string;
   }
 
-  getUserRole(): boolean {
-    if (localStorage.getItem('role') === 'true') {
-      return true;
-    } else {
-      return false;
-    }
+  getUserRoles(): string[] {
+    const role = localStorage.getItem('role') as string;
+    return JSON.parse(role);
   }
 
   getLoggedInUserInfo(): Observable<ApiResponse<User>> {

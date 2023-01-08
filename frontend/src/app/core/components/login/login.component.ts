@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
     )
     .subscribe({
       next: (loginData) => {
-        console.log(loginData);
         if (loginData.data.token) {
           this.authService.setLocalStorage(loginData.data.token, loginData.data.role);
           this.router.navigate(['home']);

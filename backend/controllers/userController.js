@@ -16,7 +16,6 @@ const userRegister = async (req, res, next) => {
     const lname = req.body.lname;
     const email = req.body.email;
     const password = req.body.password;
-    const isAdmin = false;
 
     // Check if form is incomplete
     if (!fname || !lname || !email || !password) {
@@ -32,7 +31,7 @@ const userRegister = async (req, res, next) => {
 
         // Create user
         await User.create({
-            fname, lname, email, password: hashedPassword, isAdmin
+            fname, lname, email, password: hashedPassword
         });
         res.status(201).send(APIResponse.created('User Registered'));
     }
@@ -50,7 +49,7 @@ const userLogin = async (req, res, next) => {
     const user = await User.findOne(filter).select('+password');
     if (user && (await (bcrypt.compare(password, user.password)))) {
         const token = generateToken(user._id);
-        const role = user.isAdmin;
+        const role = user.role;
         const response = { token, role };
         res.status(200).send(APIResponse.fetched('Login successfully', response));
     } else {
@@ -67,12 +66,12 @@ const userInfo = async (req, res, next) => {
 };
 
 const sampleDataInsert = async (req, res) => {
-    for (let k = 1; k < 6; k++) {
-        const fname = 'seth';
+    for (let k = 1; k < 2; k++) {
+        const fname = 'shivansh';
         const lname = fname;
-        const email = fname + k;
+        const email = fname;
         const password = fname;
-        const isAdmin = true;
+        const role = ['USER', 'AUTHOR', 'ADMIN'];
 
         // Hash password
         const salt = await bcrypt.genSalt(10);
@@ -80,7 +79,7 @@ const sampleDataInsert = async (req, res) => {
 
         // Create user
         await User.create({
-            fname, lname, email, password: hashedPassword, isAdmin
+            fname, lname, email, password: hashedPassword, role
         });
     }
     res.send('ok');

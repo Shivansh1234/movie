@@ -27,7 +27,7 @@ export class AdminComponent implements OnInit {
   cursorDir: string = '';
 
   // filter inits
-  filterValue = '';
+  filterValue: string = '';
 
   constructor(
     private adminService: AdminService,
@@ -36,21 +36,21 @@ export class AdminComponent implements OnInit {
 
   adminReq(): void {
     this.adminService.getUserListRequest(this.filterValue, this.pageSize, this.cursorId, this.cursorDir)
-    .pipe(
-      debounceTime(1000),
-      take(1)
-    )
-    .subscribe({
-      next: (userData: ApiResponse<User[]>) => {
-        this.userList = userData.data;
-        this.nextPage = userData.metaData.page.nextPage;
-        this.prevPage = userData.metaData.page.prevPage;
-        this.totalCount = userData.metaData.page.totalCount;
-      },
-      error: (err: ApiError) => {
-        this.snackbarService.errorSnackbar(err.message);
-      }
-    });
+      .pipe(
+        debounceTime(1000),
+        take(1)
+      )
+      .subscribe({
+        next: (userData: ApiResponse<User[]>) => {
+          this.userList = userData.data;
+          this.nextPage = userData.metaData.page.nextPage;
+          this.prevPage = userData.metaData.page.prevPage;
+          this.totalCount = userData.metaData.page.totalCount;
+        },
+        error: (err: ApiError) => {
+          this.snackbarService.errorSnackbar(err.message);
+        }
+      });
   }
 
   onPageChange(event: PageEvent): void {

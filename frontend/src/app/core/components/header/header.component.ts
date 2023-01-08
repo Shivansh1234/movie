@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { Role } from '../../enums/role';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -10,7 +11,8 @@ import { AuthService } from '../../services/auth.service';
 export class HeaderComponent implements OnInit {
 
   isLoggedIn$: Observable<boolean> = of(false);
-  isAdmin$: Observable<boolean> = of(false);
+  roles$: Observable<string[]> = of([]);
+  roleEnum: typeof Role = Role;
 
   constructor(private authService: AuthService) { }
 
@@ -20,7 +22,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-    this.isAdmin$ = this.authService.isAdmin;
+    this.roles$ = this.authService.getLoggedInRoles;
   }
 
 }

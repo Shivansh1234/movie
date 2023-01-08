@@ -11,7 +11,7 @@ export class CoreService {
 
   constructor(private http: HttpClient) { }
 
-  userLogin(loginData: Partial<{ email: string; password: string; }>): Observable<ApiResponse<{ token: string, role: boolean }>> {
+  userLogin(loginData: Partial<{ email: string; password: string; }>): Observable<ApiResponse<{ token: string, role: string[] }>> {
     return this.http.post<any>(`http://localhost:5000/api/user/login`, loginData).pipe(
       catchError(this.handleError)
     );

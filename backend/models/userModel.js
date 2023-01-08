@@ -21,8 +21,10 @@ const userSchema = new Schema({
         select: false,
         required: true
     },
-    isAdmin: {
-        type: Boolean
+    role: {
+        type: [String],
+        enum: ['USER', 'AUTHOR', 'ADMIN'],
+        default: 'USER'
     },
     posts: [postSchema]
 }, {

@@ -5,7 +5,10 @@
         <span class="example-spacer"></span>
         <button mat-button [routerLink]="['register']" *ngIf="!(isLoggedIn$ | async)">Register</button>
         <button mat-button [routerLink]="['login']" *ngIf="!(isLoggedIn$ | async)">Login</button>
-        <button mat-button [routerLink]="['admin']" *ngIf="isAdmin$ | async">Admin</button>
+        <ng-container *ngIf="(roles$ | async) as roleName">
+            <button mat-button [routerLink]="['admin']" *ngIf="roleName?.includes(roleEnum.ADMIN)">Admin</button>
+            <button mat-button [routerLink]="['author']" *ngIf="roleName?.includes(roleEnum.AUTHOR)">Author</button>
+        </ng-container>
         <button mat-button [routerLink]="['common', 'profile']" *ngIf="isLoggedIn$ | async">Profile</button>
         <button mat-button (click)="onLogout()" *ngIf="isLoggedIn$ | async">Logout</button>
     </mat-toolbar>
