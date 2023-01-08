@@ -84,4 +84,12 @@ const getUserListRequest = async (req, res, next) => {
     }
 };
 
-module.exports = { getUserListRequest };
+const userDelete = async (req, res, next) => {
+    const userId = req.params.userId;
+    console.log(userId);
+    const filter = userId;
+    const user = await User.findByIdAndDelete(filter);
+    res.send('user');
+};
+
+module.exports = { getUserListRequest, userDelete };
