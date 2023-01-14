@@ -1,10 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { take } from 'rxjs';
+import { ApiError } from '../core/models/api-error';
+import { ApiResponse } from '../core/models/api-response';
+import { Post } from '../core/models/post';
+import { SnackbarService } from '../core/services/snackbar.service';
+import { AuthorService } from './services/author.service';
 
 @Component({
   selector: 'app-author',
   templateUrl: './author.component.html',
   styleUrls: ['./author.component.css']
 })
-export class AuthorComponent {
+export class AuthorComponent implements OnInit {
 
+  postForm!: FormGroup;
+
+  constructor(
+    private authorService: AuthorService,
+    private fb: FormBuilder,
+    private snackbarService: SnackbarService
+  ) { }
+
+  initializePostForm(): void {
+    this.postForm = this.fb.group({
+      name: ['', Validators.required],
+      type: ['', Validators.required]
+    });
+  }
+
+  createPost(): void {
+    this.authorService.createPostRequest(this.postForm.value)
+    .pipe(
+      take(1)
+    )
+    .subscribe({
+      next: (postData: ApiResponse<Post>) => {
+        this.snackbarService.successSnackbar(postData.message);
+      },
+      error: (err: ApiError) => {
+        this.snackbarService.errorSnackbar(err.message);
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    this.initializePostForm();
+  }
 }

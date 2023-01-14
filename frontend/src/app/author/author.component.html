@@ -1,1 +1,19 @@
 <p>author works!</p>
+<form [formGroup]="postForm" (ngSubmit)="createPost()">
+
+    <p>
+        <mat-form-field>
+            <mat-label>Post Name</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="name">
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Post Type</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="type">
+        </mat-form-field>
+    </p>
+
+    <button mat-button type="submit" [disabled]="!postForm.valid">Post</button>
+
+</form>
