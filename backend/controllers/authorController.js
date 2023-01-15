@@ -3,14 +3,6 @@ const User = require('../models/userModel');
 const APIError = require('../config/APIError');
 const APIResponse = require('../config/APIResponse');
 
-// @desc Get author
-// @route POST /api/author/info
-// @access private
-const authorRequest = async (req, res, next) => {
-    res.send('Author');
-    next();
-};
-
 // @desc Get Post
 // @route GET /api/author/getPost
 // @access private
@@ -46,4 +38,4 @@ const createPost = async (req, res, next) => {
     });
 };
 
-module.exports = { authorRequest, createPost, getPost };
+module.exports = { createPost, getPost };
