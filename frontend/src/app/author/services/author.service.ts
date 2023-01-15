@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiResponse } from 'src/app/core/models/api-response';
@@ -11,14 +11,20 @@ export class AuthorService {
 
   constructor(private http: HttpClient) { }
 
+  getAuthorPostsRequest(): Observable<ApiResponse<Post[]>> {
+    return this.http.get<ApiResponse<Post[]>>('http://localhost:5000/api/author/getPosts').pipe(
+      catchError(this.handleError)
+    );
+  }
+
   createPostRequest(postData: Post): Observable<ApiResponse<Post>> {
     return this.http.post<ApiResponse<Post>>('http://localhost:5000/api/author/createPost', postData).pipe(
       catchError(this.handleError)
     );
   }
 
-  getAuthorPostsRequest(): Observable<ApiResponse<Post[]>> {
-    return this.http.get<ApiResponse<Post[]>>('http://localhost:5000/api/author/getPosts').pipe(
+  deletePostRequest(postId: string): Observable<ApiResponse<void>> {
+    return this.http.delete<ApiResponse<void>>(`http://localhost:5000/api/author/deletePost/${postId}`).pipe(
       catchError(this.handleError)
     );
   }

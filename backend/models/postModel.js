@@ -3,11 +3,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const postSchema = new Schema({
     createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
-    postName: {
+    title: {
         type: String,
         required: true
     },
-    postType: {
+    tags: {
+        type: [String],
+        required: true
+    },
+    description: {
         type: String,
         required: true
     }

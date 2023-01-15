@@ -18,8 +18,8 @@ const getPost = async (req, res, next) => {
 // @route POST /api/author/createPost
 // @access private
 const createPost = async (req, res, next) => {
-    const postName = req.body.name;
-    const postType = req.body.type;
+    const title = req.body.title;
+    const description = req.body.description;
     const createdBy = req.user._id;
 
     const user = await User.findById(createdBy);
@@ -28,14 +28,30 @@ const createPost = async (req, res, next) => {
             next(APIError.notFound('Invalid user'));
         } else {
             const post = await Post.create({
-                postName, postType, createdBy: user._id
+                title, description, createdBy: user._id
             });
             user.posts.push(post._id);
             user.save();
-            res.status(200).send(APIResponse.created(`${post.postName} - Post created`));
+            res.status(200).send(APIResponse.created(`${post.title} - Post created`));
             next();
         }
     });
 };
 
-module.exports = { createPost, getPost };
+// @desc Delete Post
+// @route DELETE /api/author/deletePost
+// @access private
+const deletePost = async (req, res, next) => {
+    const postId = req.params.postId;
+    const filter = postId;
+
+    const post = await Post.findByIdAndDelete(filter);
+    if (post) {
+        res.status(200).send(APIResponse.deleted(`${post.title} - Post deleted`));
+        next();
+    } else {
+        next(APIError.notFound('Error while deleting post'));
+    }
+};
+
+module.exports = { createPost, getPost, deletePost };

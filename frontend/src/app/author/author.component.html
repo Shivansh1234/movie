@@ -1,19 +1,20 @@
-<p>author works!</p>
-<form [formGroup]="postForm" (ngSubmit)="createPost()">
+<!-- <mat-tab-group>
+    <mat-tab label="First">
+        <ng-template matTabContent>
+            <app-view-posts></app-view-posts>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Second">
+        <ng-template matTabContent>
+            <app-create-post></app-create-post>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group> -->
 
-    <p>
-        <mat-form-field>
-            <mat-label>Post Name</mat-label>
-            <input matInput placeholder="Placeholder" formControlName="name">
-        </mat-form-field>
-    </p>
-    <p>
-        <mat-form-field>
-            <mat-label>Post Type</mat-label>
-            <input matInput placeholder="Placeholder" formControlName="type">
-        </mat-form-field>
-    </p>
-
-    <button mat-button type="submit" [disabled]="!postForm.valid">Post</button>
-
-</form>
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    <a mat-tab-link *ngFor="let link of navLinks" [routerLink]="link.link" routerLinkActive #rla="routerLinkActive"
+        [active]="rla.isActive">{{ link.label }}
+    </a>
+</nav>
+<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+<router-outlet></router-outlet>

@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthorComponent } from './author.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 import { ViewPostsComponent } from './components/view-posts/view-posts.component';
 
 const routes: Routes = [
-  { path: '', component: AuthorComponent },
-  { path: 'view-posts', component: ViewPostsComponent}
+  {
+    path: '', component: AuthorComponent,
+    children: [
+      { path: '', redirectTo: 'view-posts', pathMatch: 'full'},
+      { path: 'view-posts', component: ViewPostsComponent },
+      { path: 'create-post', component: CreatePostComponent }
+    ]
+  }
 ];
 
 @NgModule({

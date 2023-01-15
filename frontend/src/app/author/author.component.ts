@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { take } from 'rxjs';
-import { ApiError } from '../core/models/api-error';
-import { ApiResponse } from '../core/models/api-response';
-import { Post } from './models/post';
-import { SnackbarService } from '../core/services/snackbar.service';
-import { AuthorService } from './services/author.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-author',
@@ -14,37 +8,26 @@ import { AuthorService } from './services/author.service';
 })
 export class AuthorComponent implements OnInit {
 
-  postForm!: FormGroup;
+  navLinks: any = [];
+  activeLinkIndex = -1; 
 
-  constructor(
-    private authorService: AuthorService,
-    private fb: FormBuilder,
-    private snackbarService: SnackbarService
-  ) { }
-
-  initializePostForm(): void {
-    this.postForm = this.fb.group({
-      name: ['', Validators.required],
-      type: ['', Validators.required]
-    });
-  }
-
-  createPost(): void {
-    this.authorService.createPostRequest(this.postForm.value)
-    .pipe(
-      take(1)
-    )
-    .subscribe({
-      next: (postData: ApiResponse<Post>) => {
-        this.snackbarService.successSnackbar(postData.message);
-      },
-      error: (err: ApiError) => {
-        this.snackbarService.errorSnackbar(err.message);
+  constructor(private router: Router) {
+    this.navLinks = [
+      {
+        label: 'First',
+        link: 'view-posts',
+        index: 0
+      }, {
+        label: 'Second',
+        link: 'create-post',
+        index: 1
       }
-    });
+    ];
   }
 
   ngOnInit(): void {
-    this.initializePostForm();
+    this.router.events.subscribe((res) => {
+      this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find((tab: any) => tab.link === '.' + this.router.url));
+  });
   }
 }

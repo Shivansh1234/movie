@@ -16,24 +16,40 @@ export class ViewPostsComponent implements OnInit {
 
   postList: Post[] = [];
 
-  constructor (
+  constructor(
     private authorService: AuthorService,
     private snackbarService: SnackbarService
-  ) {}
+  ) { }
 
   getAuthorPosts(): void {
     this.authorService.getAuthorPostsRequest()
-    .pipe(
-      take(1)
-    )
-    .subscribe({
-      next: (postListData: ApiResponse<Post[]>) => {
-        this.postList = postListData.data;
-      },
-      error: (err: ApiError) => {
-        this.snackbarService.errorSnackbar(err.message);
-      }
-    });
+      .pipe(
+        take(1)
+      )
+      .subscribe({
+        next: (postListData: ApiResponse<Post[]>) => {
+          this.postList = postListData.data;
+        },
+        error: (err: ApiError) => {
+          this.snackbarService.errorSnackbar(err.message);
+        }
+      });
+  }
+
+  deletePost(postId: string): void {
+    this.authorService.deletePostRequest(postId)
+      .pipe(
+        take(1)
+      )
+      .subscribe({
+        next: (postDeleteData: ApiResponse<void>) => {
+          this.snackbarService.successSnackbar(postDeleteData.message);
+          this.getAuthorPosts();
+        },
+        error: (postDeleteErr: ApiError) => {
+          this.snackbarService.errorSnackbar(postDeleteErr.message);
+        }
+      });
   }
 
   ngOnInit(): void {

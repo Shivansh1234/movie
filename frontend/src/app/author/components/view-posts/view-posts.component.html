@@ -1,2 +1,30 @@
-<p>view-posts works!</p>
-{{ postList | json }}
+<mat-accordion class="example-headers-align">
+    <ng-container *ngFor="let p of postList">
+        <br>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{ p.title }}
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{ p.description }}
+                    <mat-icon>account_circle</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-form-field appearance="fill">
+                <mat-label>First name</mat-label>
+                <input matInput>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Age</mat-label>
+                <input matInput type="number" min="1">
+            </mat-form-field>
+            <mat-action-row>
+                <button mat-button color="primary">Edit</button>
+                <button mat-button color="warn" (click)="deletePost(p._id)">Delete</button>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </ng-container>
+</mat-accordion>

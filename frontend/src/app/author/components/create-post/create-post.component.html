@@ -1,1 +1,17 @@
 <p>create-post works!</p>
+<form [formGroup]="postForm" (ngSubmit)="createPost()">
+    <p>
+        <mat-form-field>
+            <mat-label>Post Title</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="title">
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Post Description</mat-label>
+            <textarea matInput placeholder="Ex. It makes me feel..." formControlName="description"></textarea>
+        </mat-form-field>
+    </p>
+
+    <button mat-button type="submit" [disabled]="!postForm.valid">Post</button>
+</form>
