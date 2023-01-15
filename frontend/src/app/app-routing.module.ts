@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './core/components/home/home.component';
 import { LoginComponent } from './core/components/login/login.component';
+import { PageNotFoundComponent } from './core/components/page-not-found/page-not-found.component';
 import { RegisterComponent } from './core/components/register/register.component';
 import { AdminGuard } from './core/guards/admin.guard';
 import { AuthorGuard } from './core/guards/author.guard';
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'common', loadChildren: () => import('./shared/shared.module').then(s => s.SharedModule) },
 
   // redirect home route
-  { path: '**', redirectTo: 'home', pathMatch: 'full' }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({

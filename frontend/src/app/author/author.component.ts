@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { take } from 'rxjs';
 import { ApiError } from '../core/models/api-error';
 import { ApiResponse } from '../core/models/api-response';
-import { Post } from '../core/models/post';
+import { Post } from './models/post';
 import { SnackbarService } from '../core/services/snackbar.service';
 import { AuthorService } from './services/author.service';
 

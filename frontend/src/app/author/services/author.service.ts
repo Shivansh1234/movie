@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiResponse } from 'src/app/core/models/api-response';
-import { Post } from 'src/app/core/models/post';
+import { Post } from '../models/post';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,12 @@ export class AuthorService {
 
   createPostRequest(postData: Post): Observable<ApiResponse<Post>> {
     return this.http.post<ApiResponse<Post>>('http://localhost:5000/api/author/createPost', postData).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getAuthorPostsRequest(): Observable<ApiResponse<Post[]>> {
+    return this.http.get<ApiResponse<Post[]>>('http://localhost:5000/api/author/getPosts').pipe(
       catchError(this.handleError)
     );
   }

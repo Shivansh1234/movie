@@ -10,19 +10,19 @@ export class SnackbarService {
 
   successSnackbar(successMessage: string): void {
     this.snackbar.open(successMessage, `Ok`, {
-      duration: 1000
+      duration: 1500
     });
   }
 
   errorSnackbar(errorMessage: string): void {
     this.snackbar.open(errorMessage, `Ok`, {
-      duration: 1000
+      duration: 1500
     });
   }
 
   infoSnackbar(infoMessage: string): void {
     this.snackbar.open(infoMessage, `Ok`, {
-      duration: 1000
+      duration: 1500
     });
   }
 }

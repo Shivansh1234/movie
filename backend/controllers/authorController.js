@@ -10,7 +10,7 @@ const getPost = async (req, res, next) => {
     const userId = req.user._id;
     const filter = userId;
     const userPosts = await User.findById(filter).populate('posts').select('posts');
-    res.send(userPosts);
+    res.status(200).send(APIResponse.fetched('User Posts fetched successfully', userPosts.posts));
     next();
 };
 
