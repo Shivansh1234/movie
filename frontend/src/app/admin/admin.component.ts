@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { debounceTime, take } from 'rxjs';
+import { debounceTime, Observable, take, tap } from 'rxjs';
 import { ApiError } from '../core/models/api-error';
 import { ApiResponse } from '../core/models/api-response';
 import { User } from '../core/models/user';
@@ -14,7 +14,7 @@ import { AdminService } from './services/admin.service';
 })
 export class AdminComponent implements OnInit {
 
-  userList: User[] = [];
+  userList$: Observable<ApiResponse<User[]>> = new Observable<ApiResponse<User[]>>;
 
   // Pagination inputs
   pageSize: number = 5;
@@ -30,27 +30,19 @@ export class AdminComponent implements OnInit {
   filterValue: string = '';
 
   constructor(
-    private adminService: AdminService,
-    private snackbarService: SnackbarService
+    private adminService: AdminService
   ) { }
 
   adminReq(): void {
-    this.adminService.getUserListRequest(this.filterValue, this.pageSize, this.cursorId, this.cursorDir)
+    this.userList$ = this.adminService.getUserListRequest(this.filterValue, this.pageSize, this.cursorId, this.cursorDir)
       .pipe(
         debounceTime(1000),
-        take(1)
-      )
-      .subscribe({
-        next: (userData: ApiResponse<User[]>) => {
-          this.userList = userData.data;
+        tap((userData: ApiResponse<User[]>) => {
           this.nextPage = userData.metaData.page.nextPage;
           this.prevPage = userData.metaData.page.prevPage;
           this.totalCount = userData.metaData.page.totalCount;
-        },
-        error: (err: ApiError) => {
-          this.snackbarService.errorSnackbar(err.message);
-        }
-      });
+        })
+      );
   }
 
   onPageChange(event: PageEvent): void {

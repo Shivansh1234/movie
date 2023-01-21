@@ -6,7 +6,7 @@ const APIResponse = require('../config/APIResponse');
 // @desc Get Post
 // @route GET /api/author/getPost
 // @access private
-const getPost = async (req, res, next) => {
+const getPosts = async (req, res, next) => {
     const userId = req.user._id;
     const filter = userId;
     const userPosts = await User.findById(filter).populate('posts').select('posts');
@@ -54,4 +54,14 @@ const deletePost = async (req, res, next) => {
     }
 };
 
-module.exports = { createPost, getPost, deletePost };
+const getSinglePost = async (req, res, next) => {
+    const postId = req.params.postId;
+    const filter = postId;
+    const post = await Post.findById(filter);
+    res.send(APIResponse.fetched('Post fetched', post));
+    next();
+};
+
+module.exports = {
+    createPost, getPosts, deletePost, getSinglePost
+};

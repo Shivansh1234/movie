@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { ApiError } from 'src/app/core/models/api-error';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
@@ -14,7 +14,7 @@ import { AuthorService } from '../../services/author.service';
 })
 export class ViewPostsComponent implements OnInit {
 
-  postList: Post[] = [];
+  postList$: Observable<ApiResponse<Post[]>> = new Observable<ApiResponse<Post[]>>;
 
   constructor(
     private authorService: AuthorService,
@@ -22,18 +22,7 @@ export class ViewPostsComponent implements OnInit {
   ) { }
 
   getAuthorPosts(): void {
-    this.authorService.getPostsRequest()
-      .pipe(
-        take(1)
-      )
-      .subscribe({
-        next: (postListData: ApiResponse<Post[]>) => {
-          this.postList = postListData.data;
-        },
-        error: (err: ApiError) => {
-          this.snackbarService.errorSnackbar(err.message);
-        }
-      });
+    this.postList$ = this.authorService.getPostsRequest();
   }
 
   deletePost(postId: string): void {

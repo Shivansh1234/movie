@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { take } from 'rxjs';
-import { ApiError } from 'src/app/core/models/api-error';
+import { Observable, take } from 'rxjs';
 import { ApiResponse } from 'src/app/core/models/api-response';
-import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { Post } from '../../models/post';
 import { AuthorService } from '../../services/author.service';
 
@@ -14,28 +12,16 @@ import { AuthorService } from '../../services/author.service';
 })
 export class PostDetailComponent implements OnInit {
 
-  post: Post = {} as Post;
+  post$: Observable<ApiResponse<Post>> = new Observable<ApiResponse<Post>>;
 
   constructor(
     private authorService: AuthorService,
-    private route: ActivatedRoute,
-    private snackbarService: SnackbarService
+    private route: ActivatedRoute
   ) { }
 
   getPostDetail(): void {
     const postId = this.route.snapshot.paramMap.get('id') as string;
-    this.authorService.getPostDetailRequest(postId)
-    .pipe(
-      take(1)
-    )
-    .subscribe({
-      next: (postDetailData: ApiResponse<Post>) => {
-        this.post = postDetailData.data;
-      },
-      error: (err: ApiError) => {
-        this.snackbarService.errorSnackbar(err.message);
-      }
-    });
+    this.post$ = this.authorService.getPostDetailRequest(postId);
   }
 
   ngOnInit(): void {
