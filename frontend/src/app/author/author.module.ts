@@ -16,13 +16,15 @@ MatIconModule
 
 import { ViewPostsComponent } from './components/view-posts/view-posts.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
+import { PostDetailComponent } from './components/post-detail/post-detail.component';
 
 
 @NgModule({
   declarations: [
     AuthorComponent,
     ViewPostsComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    PostDetailComponent
   ],
   imports: [
     CommonModule,

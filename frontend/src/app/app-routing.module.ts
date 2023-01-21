@@ -10,9 +10,9 @@ import { LoginGuard } from './core/guards/login.guard';
 import { LogoutGuard } from './core/guards/logout.guard';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'register', component: RegisterComponent, canActivate: [LogoutGuard] },
-  { path: 'login', component: LoginComponent, canActivate: [LogoutGuard] },
+  { path: 'home', title: 'Home', component: HomeComponent },
+  { path: 'register', title: 'Register', component: RegisterComponent, canActivate: [LogoutGuard] },
+  { path: 'login', title: 'Login', component: LoginComponent, canActivate: [LogoutGuard] },
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(ad => ad.AdminModule), canActivate: [LoginGuard, AdminGuard] },
   { path: 'author', loadChildren: () => import('./author/author.module').then(at => at.AuthorModule), canActivate: [LoginGuard, AuthorGuard] },
   { path: 'common', loadChildren: () => import('./shared/shared.module').then(s => s.SharedModule) },

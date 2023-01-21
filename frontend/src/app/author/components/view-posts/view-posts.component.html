@@ -4,7 +4,9 @@
         <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    {{ p.title }}
+                    <a mat-button [routerLink]="['../edit-post', p._id]">
+                        {{ p.title }}
+                    </a>
                 </mat-panel-title>
                 <mat-panel-description>
                     {{ p.description }}

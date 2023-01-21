@@ -9,16 +9,16 @@ import { Router } from '@angular/router';
 export class AuthorComponent implements OnInit {
 
   navLinks: any = [];
-  activeLinkIndex = -1; 
+  activeLinkIndex = -1;
 
   constructor(private router: Router) {
     this.navLinks = [
       {
-        label: 'First',
+        label: 'View Posts',
         link: 'view-posts',
         index: 0
       }, {
-        label: 'Second',
+        label: 'Create Post',
         link: 'create-post',
         index: 1
       }
@@ -28,6 +28,6 @@ export class AuthorComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find((tab: any) => tab.link === '.' + this.router.url));
-  });
+    });
   }
 }

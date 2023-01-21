@@ -22,7 +22,7 @@ export class ViewPostsComponent implements OnInit {
   ) { }
 
   getAuthorPosts(): void {
-    this.authorService.getAuthorPostsRequest()
+    this.authorService.getPostsRequest()
       .pipe(
         take(1)
       )

@@ -11,8 +11,14 @@ export class AuthorService {
 
   constructor(private http: HttpClient) { }
 
-  getAuthorPostsRequest(): Observable<ApiResponse<Post[]>> {
+  getPostsRequest(): Observable<ApiResponse<Post[]>> {
     return this.http.get<ApiResponse<Post[]>>('http://localhost:5000/api/author/getPosts').pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getPostDetailRequest(postId: string): Observable<ApiResponse<Post>> {
+    return this.http.get<ApiResponse<Post>>(`http://localhost:5000/api/author/postDetail/${postId}`).pipe(
       catchError(this.handleError)
     );
   }
