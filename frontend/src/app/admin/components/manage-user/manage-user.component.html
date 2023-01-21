@@ -1,0 +1,16 @@
+<p>manage-user works!</p>
+<mat-form-field>
+    <mat-label>Search</mat-label>
+    <input matInput [formControl]="searchControl">
+</mat-form-field>
+<ol>
+    <ng-container *ngFor="let user of (userList$ | async)?.data">
+        <li>
+            {{ user.email }} &nbsp; &nbsp; &nbsp; {{ user._id }}
+            <button mat-button>delete</button>
+        </li>
+    </ng-container>
+</ol>
+<mat-paginator #paginator [length]="totalCount" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageIndex]="pageIndex" aria-label="Select page" (page)="onPageChange($event)">
+</mat-paginator>

@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouteTab } from '../core/models/route-tab';
 
 @Component({
   selector: 'app-author',
   templateUrl: './author.component.html',
   styleUrls: ['./author.component.css']
 })
-export class AuthorComponent implements OnInit {
+export class AuthorComponent {
 
-  navLinks: any = [];
-  activeLinkIndex = -1;
+  authorNavLinks: RouteTab[] = [];
 
-  constructor(private router: Router) {
-    this.navLinks = [
+  constructor () {
+    this.authorNavLinks = [
       {
         label: 'View Posts',
         link: 'view-posts',
@@ -23,11 +22,5 @@ export class AuthorComponent implements OnInit {
         index: 1
       }
     ];
-  }
-
-  ngOnInit(): void {
-    this.router.events.subscribe((res) => {
-      this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find((tab: any) => tab.link === '.' + this.router.url));
-    });
   }
 }
