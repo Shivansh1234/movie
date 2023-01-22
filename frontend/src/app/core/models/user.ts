@@ -4,7 +4,7 @@ export interface User {
     lname: string;
     email: string;
     password: string;
-    isAdmin: boolean;
+    role: string[];
     token: string
     updatedAt: Date;
     createdAt: Date;

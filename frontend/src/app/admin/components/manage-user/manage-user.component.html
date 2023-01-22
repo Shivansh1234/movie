@@ -1,15 +1,13 @@
-<ng-container *ngIf="userList?.length">
-    <app-table
-        [tableData]="userList"
-        [tableColumns]="ordersTableColumns"
-        [isFilterable]="true"
-        [isPageable]="true"
-        [paginationSizes]="[5, 10, 25, 100]"
-        [defaultPageSize]="5"
-        [rowActionIcon]="'account_circle'"
-        (onSort)="sortData($event)"
-        (onSearch)="applyFilter($event)"
-        (onPagination)="onPageChange($event)"
-        (onRowSelect)="removeOrder($event)">
-    </app-table>
-</ng-container>
+<app-table
+    [tableData$]="users$"
+    [tableColumns]="userTableColumns"
+    [isFilterable]="true"
+    [isPageable]="true"
+    [paginationSizes]="[5, 10, 25, 100]"
+    [defaultPageSize]="5"
+    [rowActionIcon]="'account_circle'"
+    (onSort)="sortData($event)"
+    (onSearch)="applyFilter($event)"
+    (onPagination)="onPageChange($event)"
+    (onRowSelect)="removeOrder($event)">
+</app-table>
