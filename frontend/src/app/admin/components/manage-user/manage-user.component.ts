@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { debounceTime, Observable, tap } from 'rxjs';
+import { debounceTime, Observable, take, tap } from 'rxjs';
 import { ApiResponse } from 'src/app/core/models/api-response';
 import { User } from 'src/app/core/models/user';
+import { TableColumn } from 'src/app/shared/models/table-column';
 import { AdminService } from '../../services/admin.service';
 
 @Component({
@@ -13,7 +14,13 @@ import { AdminService } from '../../services/admin.service';
 })
 export class ManageUserComponent {
 
-  userList$: Observable<ApiResponse<User[]>> = new Observable<ApiResponse<User[]>>;
+  userList: User[] = [];
+  orders$: Observable<ApiResponse<any[]>> = new Observable<ApiResponse<any[]>>
+
+  ordersTableColumns: TableColumn[] = [
+    { name: 'Email', dataKey: 'email' },
+    { name: 'Fname', dataKey: 'fname' }
+  ]
 
   // Pagination inputs
   pageSize: number = 5;
@@ -34,14 +41,18 @@ export class ManageUserComponent {
   ) { }
 
   adminReq(): void {
-    this.userList$ = this.adminService.getUserListRequest(this.filterValue, this.pageSize, this.cursorId, this.cursorDir)
+    this.adminService.getUserListRequest(this.filterValue, this.pageSize, this.cursorId, this.cursorDir)
       .pipe(
-        tap((userData: ApiResponse<User[]>) => {
+        take(1)
+      )
+      .subscribe({
+        next: (userData: ApiResponse<User[]>) => {
+          this.userList = userData.data;
           this.nextPage = userData.metaData.page.nextPage;
           this.prevPage = userData.metaData.page.prevPage;
           this.totalCount = userData.metaData.page.totalCount;
-        })
-      );
+        }
+      });
   }
 
   onPageChange(event: PageEvent): void {
@@ -77,12 +88,15 @@ export class ManageUserComponent {
 
   ngOnInit(): void {
     this.adminReq();
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(800)
-      )
-      .subscribe(data => {
-        this.applyFilter(data);
-      });
+  }
+
+
+  // app-table
+  sortData(event: any): void {
+    console.log(event);
+  }
+
+  removeOrder(event: any): void {
+    console.log(event);
   }
 }

@@ -4,7 +4,7 @@
     <ng-container *ngIf="isFilterable" [matColumnDef]="this.rowActionIcon">
         <mat-form-field>
             <mat-label>Filter</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="filter">
+            <input matInput [formControl]="searchControl">
         </mat-form-field>
     </ng-container>
 
@@ -16,7 +16,7 @@
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element" [id]="rowActionIcon" (click)="emitRowAction(element)">
                 <button mat-button>
-                    <mat-icon>remove_shopping_cart</mat-icon>
+                    <mat-icon class="material-icons-outlined">{{rowActionIcon}}</mat-icon>
                 </button>
             </td>
         </ng-container>
@@ -38,7 +38,7 @@
 
             <!-- column data -->
             <td mat-cell *matCellDef="let element" [class.text-right]="tableColumn.position == 'right'">
-                {{tableColumn.dataKey}}
+                {{element[tableColumn.dataKey]}}
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -47,6 +47,6 @@
 
     <!-- Pagination -->
     <mat-paginator *ngIf="isPageable" [pageSizeOptions]="paginationSizes" [pageSize]="defaultPageSize"
-        showFirstLastButtons>
+        (page)="onPageChange($event)">
     </mat-paginator>
 </ng-container>
