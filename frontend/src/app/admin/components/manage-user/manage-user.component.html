@@ -6,8 +6,6 @@
     [paginationSizes]="[5, 10, 25, 100]"
     [defaultPageSize]="5"
     [rowActionIcon]="'account_circle'"
-    (onSort)="sortData($event)"
     (onSearch)="applyFilter($event)"
-    (onPagination)="onPageChange($event)"
-    (onRowSelect)="removeOrder($event)">
+    (onPagination)="onPageChange($event)">
 </app-table>

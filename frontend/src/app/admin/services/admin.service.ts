@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiResponse } from 'src/app/core/models/api-response';
 import { User } from 'src/app/core/models/user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AdminService {
 
   getUserListRequest(filterValue: string, pageSize: number, cursorId: string, cursorDir: string): Observable<ApiResponse<User[]>> {
     let params = new HttpParams().set('search', filterValue).set('limit', pageSize).set('cursorId', cursorId).set('cursorDir', cursorDir);
-    return this.http.get<ApiResponse<User[]>>('http://localhost:5000/api/admin/info', { params }).pipe(
+    return this.http.get<ApiResponse<User[]>>(`${environment.apiURL}admin/info`, { params }).pipe(
       catchError(this.handleError)
     );
   }

@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiResponse } from 'src/app/core/models/api-response';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ProfileService {
 
   changePasswordRequest(passwordObj: any): Observable<ApiResponse<void>> {
     passwordObj = passwordObj;
-    return this.http.put<ApiResponse<void>>('http://localhost:5000/api/user/changepassword', passwordObj).pipe(
+    return this.http.put<ApiResponse<void>>(`${environment.apiURL}user/changepassword`, passwordObj).pipe(
       catchError(this.handleError)
     );
   }

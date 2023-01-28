@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { ApiResponse } from '../models/api-response';
 import { User } from '../models/user';
 
@@ -48,7 +49,7 @@ export class AuthService {
   }
 
   getLoggedInUserInfo(): Observable<ApiResponse<User>> {
-    return this.http.get<ApiResponse<User>>('http://localhost:5000/api/user/info').pipe(
+    return this.http.get<ApiResponse<User>>(`${environment.apiURL}user/info`).pipe(
       catchError(this.handleError)
     );
   }

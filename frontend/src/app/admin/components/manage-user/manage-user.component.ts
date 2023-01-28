@@ -49,14 +49,4 @@ export class ManageUserComponent {
   ngOnInit(): void {
     this.adminReq();
   }
-
-
-  // app-table
-  sortData(event: any): void {
-    console.log(event);
-  }
-
-  removeOrder(event: any): void {
-    console.log(event);
-  }
 }
