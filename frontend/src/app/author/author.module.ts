@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 MatIconModule
 
 import { ViewPostsComponent } from './components/view-posts/view-posts.component';
@@ -37,7 +38,8 @@ import { PostDetailComponent } from './components/post-detail/post-detail.compon
     MatInputModule,
     MatTabsModule,
     MatExpansionModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule
   ]
 })
 export class AuthorModule { }

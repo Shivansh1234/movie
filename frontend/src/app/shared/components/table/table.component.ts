@@ -2,7 +2,6 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, Observable, take } from 'rxjs';
 import { ApiResponse } from 'src/app/core/models/api-response';
 import { CursorEvent } from '../../models/cursor-event';
@@ -15,7 +14,6 @@ import { TableColumn } from '../../models/table-column';
 })
 export class TableComponent implements OnInit, AfterViewInit {
 
-  public tableDataSource = new MatTableDataSource([]);
   public searchControl: FormControl = new FormControl('');
   public displayedColumns: string[] = [];
 

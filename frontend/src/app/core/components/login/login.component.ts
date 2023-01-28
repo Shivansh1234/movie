@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { ApiError } from 'src/app/core/models/api-error';
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private coreService: CoreService,
     private snackbarService: SnackbarService,
-    private fb: NonNullableFormBuilder,
+    private fb: FormBuilder,
     private router: Router
   ) { }
 

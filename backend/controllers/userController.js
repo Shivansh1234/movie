@@ -65,6 +65,24 @@ const userInfo = async (req, res, next) => {
     next();
 };
 
+const changePassword = async (req, res, next) => {
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    const filter = req.user._id;
+
+    const user = await User.findOne(filter).select('+password');
+    if (user && (await (bcrypt.compare(oldPassword, user.password)))) {
+        // Hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        user.password = hashedPassword;
+        user.save();
+        res.status(200).send(APIResponse.updated('Password updated successfully'));
+    } else {
+        next(APIError.conflict('Old Password doesnt match'));
+    }
+};
+
 const sampleDataInsert = async (req, res) => {
     for (let k = 1; k < 2; k++) {
         const fname = 'shivansh';
@@ -85,4 +103,6 @@ const sampleDataInsert = async (req, res) => {
     res.send('ok');
 };
 
-module.exports = { userRegister, userLogin, userInfo, sampleDataInsert };
+module.exports = {
+    userRegister, userLogin, userInfo, sampleDataInsert, changePassword
+};

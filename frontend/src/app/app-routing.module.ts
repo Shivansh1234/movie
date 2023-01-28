@@ -15,11 +15,11 @@ const routes: Routes = [
   { path: 'login', title: 'Login', component: LoginComponent, canActivate: [LogoutGuard] },
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(ad => ad.AdminModule), canActivate: [LoginGuard, AdminGuard] },
   { path: 'author', loadChildren: () => import('./author/author.module').then(at => at.AuthorModule), canActivate: [LoginGuard, AuthorGuard] },
-  { path: 'common', loadChildren: () => import('./shared/shared.module').then(s => s.SharedModule) },
+  { path: 'common', loadChildren: () => import('./shared/shared.module').then(s => s.SharedModule), canActivate: [LoginGuard] },
 
   // redirect home route
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent}
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

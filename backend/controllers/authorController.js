@@ -57,7 +57,7 @@ const deletePost = async (req, res, next) => {
 const getSinglePost = async (req, res, next) => {
     const postId = req.params.postId;
     const filter = postId;
-    const post = await Post.findById(filter);
+    const post = await Post.findById(filter).populate('createdBy');
     res.send(APIResponse.fetched('Post fetched', post));
     next();
 };
